@@ -20,11 +20,11 @@ type ResultsTableMenu struct {
 }
 
 var menuItems = []string{
-	"Records",
-	"Columns",
-	"Constraints",
-	"Foreign Keys",
-	"Indexes",
+	app.RecordIcon + " Records",
+	app.ColumnIcon + " Columns",
+	app.ContrainsIcon + " Constraints",
+	app.ForeignKeyIcon + " Foreign Keys",
+	app.IndexIcon + " Indexes",
 }
 
 func NewResultsTableMenu() *ResultsTableMenu {
@@ -57,11 +57,11 @@ func NewResultsTableMenu() *ResultsTableMenu {
 		size := 15
 
 		switch item {
-		case "Constraints":
+		case app.ContrainsIcon + " Constraints":
 			size = 19
-		case "Foreign Keys":
+		case app.ForeignKeyIcon + " Foreign Keys":
 			size = 20
-		case "Indexes":
+		case app.IndexIcon + " Indexes":
 			size = 16
 		}
 

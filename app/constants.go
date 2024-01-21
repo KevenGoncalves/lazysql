@@ -15,7 +15,7 @@ var (
 	SchemaIcon     = "󱏉"
 	RecordIcon     = "󰧮"
 	ColumnIcon     = ""
-	ContrainsIcon  = "󰡌"
+	ContrainsIcon  = ""
 	ForeignKeyIcon = ""
 	IndexIcon      = ""
 	SearchIcon     = ""

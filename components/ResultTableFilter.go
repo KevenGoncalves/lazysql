@@ -31,9 +31,9 @@ func NewResultsFilter() *ResultsTableFilter {
 	recordsFilter.SetBackgroundColor(tcell.ColorDefault)
 
 	recordsFilter.Label.SetTextColor(tcell.ColorYellow)
-	recordsFilter.Label.SetText("WHERE")
+	recordsFilter.Label.SetText(app.SearchIcon)
 	recordsFilter.Label.SetBackgroundColor(tcell.ColorDefault)
-	recordsFilter.Label.SetBorderPadding(0, 0, 0, 1)
+	recordsFilter.Label.SetBorderPadding(0, 0, 0, 0)
 
 	recordsFilter.Input.SetPlaceholder("Enter a WHERE clause to filter the results")
 	recordsFilter.Input.SetPlaceholderStyle(tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorDefault))
@@ -43,8 +43,8 @@ func NewResultsFilter() *ResultsTableFilter {
 		switch key {
 		case tcell.KeyEnter:
 			if recordsFilter.Input.GetText() != "" {
-				recordsFilter.currentFilter = "WHERE " + recordsFilter.Input.GetText()
-				recordsFilter.Publish("WHERE " + recordsFilter.Input.GetText())
+				recordsFilter.currentFilter = app.SearchIcon + " " + recordsFilter.Input.GetText()
+				recordsFilter.Publish(app.SearchIcon + " " + recordsFilter.Input.GetText())
 
 			}
 		case tcell.KeyEscape:
@@ -56,7 +56,7 @@ func NewResultsFilter() *ResultsTableFilter {
 	})
 	recordsFilter.Input.SetAutocompleteStyles(tcell.ColorBlack, tcell.StyleDefault.Foreground(app.FocusTextColor).Background(tcell.ColorBlack), tcell.StyleDefault.Foreground(app.ActiveTextColor).Background(tcell.ColorBlack))
 
-	recordsFilter.AddItem(recordsFilter.Label, 6, 0, false)
+	recordsFilter.AddItem(recordsFilter.Label, 3, 0, false)
 	recordsFilter.AddItem(recordsFilter.Input, 0, 1, false)
 
 	return recordsFilter

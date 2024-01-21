@@ -64,8 +64,8 @@ func NewTree(dbName string, dbdriver drivers.Driver) *Tree {
 
 		if tree.GetSelectedDatabase() == "" {
 			for _, child := range databases {
-				child = fmt.Sprintf("%s %s", app.DatabasesIcon, child)
-				childNode := tview.NewTreeNode(child)
+				text := fmt.Sprintf("%s %s", app.DatabasesIcon, child)
+				childNode := tview.NewTreeNode(text)
 				childNode.SetExpanded(false)
 				childNode.SetReference(child)
 				childNode.SetColor(tcell.ColorBlue)
@@ -97,10 +97,12 @@ func NewTree(dbName string, dbdriver drivers.Driver) *Tree {
 			}
 		} else if node.GetLevel() == 2 {
 			if node.GetChildren() == nil {
-				tableName := fmt.Sprintf("%s.%s", node.GetReference(), node.GetText())
+				text := strings.Split(node.GetText(), " ")[1]
+				tableName := fmt.Sprintf("%s.%s", node.GetReference(), text)
 
 				if tree.DBDriver.GetProvider() == "sqlite3" {
-					tableName = node.GetText()
+					text = strings.Split(node.GetText(), " ")[0]
+					tableName = text
 				}
 
 				tree.SetSelectedTable(tableName)
@@ -108,10 +110,13 @@ func NewTree(dbName string, dbdriver drivers.Driver) *Tree {
 				node.SetExpanded(!node.IsExpanded())
 			}
 		} else if node.GetLevel() == 3 {
-			tableName := fmt.Sprintf("%s.%s", node.GetReference(), node.GetText())
+
+			text := strings.Split(node.GetText(), " ")[1]
+			tableName := fmt.Sprintf("%s.%s", node.GetReference(), text)
 
 			if tree.DBDriver.GetProvider() == "sqlite3" {
-				tableName = node.GetText()
+				text = strings.Split(node.GetText(), " ")[0]
+				tableName = text
 			}
 
 			tree.SetSelectedTable(tableName)
