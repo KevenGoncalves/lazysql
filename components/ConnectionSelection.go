@@ -173,13 +173,26 @@ func (cs *ConnectionSelection) connect(connectionUrl string, connectionTitle str
 
 			selectedRow, selectedCol := ConnectionListTable.GetSelection()
 			cell := ConnectionListTable.GetCell(selectedRow, selectedCol)
-			cell.SetText(fmt.Sprintf("[green]* %s", cell.Text))
+			trimmedText := strings.TrimLeft(cell.Text, " ")
+			cell.SetText(fmt.Sprintf("[green]* %s", trimmedText))
 
 			ConnectionListTable.SetCell(selectedRow, selectedCol, cell)
 
 			MainPages.SwitchToPage(connectionUrl)
 			newHome.Tree.SetCurrentNode(newHome.Tree.GetRoot())
-			newHome.Tree.SetTitle(fmt.Sprintf("%s (%s)", connectionTitle, strings.ToUpper(parsed.UnaliasedDriver)))
+
+			var dbIcon string
+
+			switch parsed.Driver {
+			case "mysql":
+				dbIcon = app.MysqlIcon
+			case "postgres":
+				dbIcon = app.PostgresIcon
+			case "sqlite3":
+				dbIcon = app.SqliteIcon
+			}
+
+			newHome.Tree.SetTitle(fmt.Sprintf("%s (%s %s)", connectionTitle, dbIcon, strings.ToUpper(parsed.UnaliasedDriver)))
 			App.SetFocus(newHome.Tree)
 			App.Draw()
 		}

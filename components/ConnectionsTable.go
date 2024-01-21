@@ -1,6 +1,8 @@
 package components
 
 import (
+	"fmt"
+
 	"github.com/jorgerojas26/lazysql/app"
 	"github.com/jorgerojas26/lazysql/helpers"
 	"github.com/jorgerojas26/lazysql/models"
@@ -48,7 +50,7 @@ func NewConnectionsTable() *ConnectionsTable {
 func (ct *ConnectionsTable) AddConnection(connection models.Connection) {
 	rowCount := ct.GetRowCount()
 
-	ct.SetCellSimple(rowCount, 0, connection.Name)
+	ct.SetCellSimple(rowCount, 0, fmt.Sprintf("  %s %s", app.ConnectionIcon, connection.Name))
 
 	ct.connections = append(ct.connections, connection)
 }

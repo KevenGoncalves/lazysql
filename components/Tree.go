@@ -2,6 +2,7 @@ package components
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/jorgerojas26/lazysql/app"
 	"github.com/jorgerojas26/lazysql/drivers"
@@ -64,6 +65,7 @@ func NewTree(dbName string, dbdriver drivers.Driver) *Tree {
 
 		if tree.GetSelectedDatabase() == "" {
 			for _, child := range databases {
+				child = fmt.Sprintf("%s %s", app.DatabasesIcon, child)
 				childNode := tview.NewTreeNode(child)
 				childNode.SetExpanded(false)
 				childNode.SetReference(child)
@@ -79,7 +81,8 @@ func NewTree(dbName string, dbdriver drivers.Driver) *Tree {
 			if node.IsExpanded() {
 				node.SetExpanded(false)
 			} else {
-				tree.SetSelectedDatabase(node.GetText())
+				text := strings.Split(node.GetText(), " ")[1]
+				tree.SetSelectedDatabase(text)
 
 				if node.GetChildren() == nil {
 					tables, err := tree.DBDriver.GetTables(tree.GetSelectedDatabase())
@@ -145,6 +148,7 @@ func (tree *Tree) updateNodes(children map[string][]string, node *tview.TreeNode
 		var rootNode *tview.TreeNode
 
 		if key != node.GetReference().(string) {
+			key = fmt.Sprintf("%s %s", app.SchemaIcon, key)
 			rootNode = tview.NewTreeNode(key)
 			rootNode.SetExpanded(false)
 			rootNode.SetReference(key)
@@ -153,6 +157,7 @@ func (tree *Tree) updateNodes(children map[string][]string, node *tview.TreeNode
 		}
 
 		for _, child := range values {
+			child = fmt.Sprintf("%s %s", app.TableIcon, child)
 			childNode := tview.NewTreeNode(child)
 			childNode.SetExpanded(defaultExpanded)
 			childNode.SetReference(node.GetText())
